@@ -1,6 +1,7 @@
 # CloudMerger-KITTI
-Merge LiDAR point clouds to a global map with known poses.
+Merge LiDAR point clouds to a global map with known poses on KITTI odometry dataset.
 
+# Usage
 ```bash
 cd CloudMerger-KITTI
 mkdir build
