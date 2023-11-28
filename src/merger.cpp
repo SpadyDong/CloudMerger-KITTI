@@ -4,8 +4,6 @@
 #include <pcl/filters/voxel_grid.h>
 #include <pcl/visualization/cloud_viewer.h>
 
-using namespace std;
-
 static bool cmp(std::string a, std::string b)
 {
     if (a < b)
@@ -47,11 +45,11 @@ static std::vector<std::string> pathList(std::string path, bool sort = false)
     return files;
 }
 
-std::vector<Eigen::Matrix<float, 4, 4>> readPose_KITTI(string path)
+std::vector<Eigen::Matrix<float, 4, 4>> readPose_KITTI(std::string path)
 {
     std::vector<Eigen::Matrix<float, 4, 4>> poses;
     std::ifstream file(path);
-    string temp_str;
+    std::string temp_str;
     file >> temp_str;
     while (!file.eof())
     {
@@ -76,12 +74,12 @@ std::vector<Eigen::Matrix<float, 4, 4>> readPose_KITTI(string path)
     return poses;
 }
 
-std::vector<Eigen::Matrix<float, 3, 4>> readCalib(string path)
+std::vector<Eigen::Matrix<float, 3, 4>> readCalib(std::string path)
 {
-    vector<Eigen::Matrix<float, 3, 4>> calib(5); // P0 P1 P2 P3 Tr
+    std::vector<Eigen::Matrix<float, 3, 4>> calib(5); // P0 P1 P2 P3 Tr
 
     std::ifstream file(path);
-    string temp_str;
+    std::string temp_str;
     for (int n = 0; n < 5; n++)
     {
         file >> temp_str;
@@ -151,7 +149,7 @@ void readPointCloud(std::string fileName, pcl::PointCloud<pcl::PointXYZI>::Ptr p
 }
 
 // 获取VELODYNE BIN文件中所包含的点数
-int getBinSize(string path)
+int getBinSize(std::string path)
 {
     int size = 0;
     FILE *fp = fopen(path.c_str(), "rb");
@@ -166,7 +164,7 @@ int getBinSize(string path)
 }
 
 // 读取KITTI VELODYNE点云
-Eigen::MatrixXf readBin(string path, int size)
+Eigen::MatrixXf readBin(std::string path, int size)
 {
     Eigen::MatrixXf pc(size, 4);
     std::ifstream velodyne_bin(path, std::ios::binary);
@@ -183,7 +181,7 @@ Eigen::MatrixXf readBin(string path, int size)
     return pc;
 }
 
-pcl::PointCloud<pcl::PointXYZI>::Ptr readPointCloudKITTI(string fileName)
+pcl::PointCloud<pcl::PointXYZI>::Ptr readPointCloudKITTI(std::string fileName)
 {
     Eigen::MatrixXf pc = readBin(fileName, getBinSize(fileName));
     pcl::PointCloud<pcl::PointXYZI>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZI>);
@@ -241,9 +239,9 @@ pcl::PointCloud<pcl::PointXYZI>::Ptr fastMerge(std::vector<std::string> lidar_fi
 
 int main()
 {
-    string velodyne_path = "/media/xwd/XWDSF306/KITTI/data_odometry_velodyne/dataset/sequences/00/velodyne";
-    string pose_path = "/media/xwd/XWDSF306/KITTI/data_odometry_velodyne/dataset/poses/00.txt";
-    string calib_path = "/media/xwd/XWDSF306/KITTI/data_odometry_calib/dataset/sequences/00/calib.txt";
+    std::string velodyne_path = "/media/xwd/XWDSF306/KITTI/data_odometry_velodyne/dataset/sequences/00/velodyne";
+    std::string pose_path = "/media/xwd/XWDSF306/KITTI/data_odometry_velodyne/dataset/poses/00.txt";
+    std::string calib_path = "/media/xwd/XWDSF306/KITTI/data_odometry_calib/dataset/sequences/00/calib.txt";
     
     std::vector<std::string> lidar_files = pathList(velodyne_path, true);
     std::vector<Eigen::Matrix<float, 4, 4>> poses = readPose_KITTI(pose_path);
