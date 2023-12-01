@@ -10,4 +10,5 @@ cmake ..
 make
 ./merge
 ```
-![image](https://github.com/SpadyDong/CloudMerger-KITTI/assets/47657625/6fdb6524-9a32-40bc-ac08-de1dbfb727d3)
+
+![image](https://github.com/SpadyDong/CloudMerger-KITTI/assets/47657625/bff4a41b-e8a5-468a-a880-f92b3ad9debc)
