@@ -215,21 +215,27 @@ pcl::PointCloud<pcl::PointXYZI>::Ptr fastMerge(std::vector<std::string> lidar_fi
 
     for (int i = 1; i < lidar_files.size(); i++)
     {
-        // 采样，每一帧都处理，资源
-        if(i%10!=0)
+        // 采样
+        if(i%5!=0)
         {
             continue;
         }
+        std::cout << i << std::endl;
+
 
         pcl::PointCloud<pcl::PointXYZI>::Ptr cloud_temp = readPointCloudKITTI(lidar_files[i]);
         depthCrop(cloud_temp, 50.0);
+        for(int j=0; j<cloud_temp->size(); j++)
+        {
+            cloud_temp->points[j].intensity = j/10;
+        }
         Eigen::Matrix<float, 4, 4> trans = init_pose_inv * poses[i] * calib_lidar;
         pcl::transformPointCloud(*cloud_temp, *cloud_temp, trans);
         *global_map += *cloud_temp;
     }
 
     pcl::VoxelGrid<pcl::PointXYZI> sor;
-    float leaf_size = 0.2f;
+    float leaf_size = 0.5f;
     sor.setLeafSize(leaf_size, leaf_size, leaf_size);
     sor.setInputCloud(global_map);
     sor.filter(*global_map);
